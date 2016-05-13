@@ -21,3 +21,10 @@ JNIEXPORT int JNICALL Java_com_example_tangyi_myapplication_Hellojni_sub(JNIEnv 
 	jresult = (jint)result;
 	return jresult;
 }
+JNIEXPORT jstring JNICALL Java_com_example_tangyi_myapplication_Hellojni_addstr(JNIEnv *jenv, jclass jcls,jstring a)
+{
+	const char* d = (*jenv)->GetStringUTFChars(jenv, a, 0);
+	char* resualt = addstr(d);
+	jstring r = (*jenv)->NewStringUTF(jenv, resualt);
+	return r;
+}
