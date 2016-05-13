@@ -30,29 +30,41 @@ JNIEXPORT jstring JNICALL Java_com_example_tangyi_myapplication_Hellojni_addstr(
 }
 JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_getstudent(JNIEnv *jenv, jclass jcls,jobject a)
 {
-	jclass clazzin = (*jenv)->GetObjectClass(jenv, a);
+	LOG;
 	student in;
 	//jclass clazz = (*jenv)->FindClass(jenv,"com/example/tangyi/myapplication/Student");
-	jfieldID fidname = (*jenv)->GetFieldID(jenv, clazzin, "name", "Ljava/lang/String");
-	jfieldID fidage = (*jenv)->GetFieldID(jenv, clazzin, "age", "I");
-	jmethodID gtnm = (*jenv)->GetMethodID(jenv,clazzin, "getName","()Ljava/lang/String");
-	jmethodID stnm = (*jenv)->GetMethodID(jenv,clazzin, "setName","(Ljava/lang/String)");
-	jmethodID gtage = (*jenv)->GetMethodID(jenv,clazzin, "getAge","()I");
-	jmethodID stage = (*jenv)->GetMethodID(jenv,clazzin, "setAge","(I)");
-	jstring jname = (*jenv)->CallObjectMethod(jenv,clazzin,gtnm);
+	jclass clazz = (*jenv)->GetObjectClass(jenv,a);
+	LOG;
+	//jfieldID fidname = (*jenv)->GetFieldID(jenv, clazz, "name", "Ljava/lang/String");
+	//jfieldID fidage = (*jenv)->GetFieldID(jenv, clazz, "age", "I");
+	jmethodID gtnm = (*jenv)->GetMethodID(jenv,clazz, "getName","(V)Ljava/lang/String;");
+	log("getstudent");
+	jmethodID gtage = (*jenv)->GetMethodID(jenv,clazz, "getAge","(V)I");
+	LOG;
+	jmethodID stage = (*jenv)->GetMethodID(jenv,clazz, "setAge","(I)V");
+	LOG;
+	jmethodID stnm = (*jenv)->GetMethodID(jenv,clazz, "setName","(Ljava/lang/String;)V");
+	LOG;
+	jstring jname = (*jenv)->CallObjectMethod(jenv,clazz,gtnm);
+	LOG;
 	const char* name = (*jenv)->GetStringUTFChars(jenv,jname, 0);
-	jint jage = (*jenv)->CallIntMethod(jenv,clazzin,gtage);
+	LOG;
+	jint jage = (*jenv)->CallIntMethod(jenv,clazz,gtage);
+	LOG;
 	int  age = (int)jage;
 	strcpy(in.name, name);
 	in.age = age;
 	student* s = getstudent(in);
-	
-	jobject out = (*jenv)->NewObject(clazzin,gtnm,stnm,gtage,stage);
+	log("name:",name,",age:",age);	
+	jobject out = (*jenv)->NewObject(clazz,gtnm,stnm,gtage,stage);
 
+	LOG;
 	jstring outjname = (*jenv)->NewStringUTF(jenv, s->name);
 	jint outjage = (int)s->name;
 	(*jenv)->CallVoidMethod(jenv,out, stnm, outjname);
+	LOG;
 	(*jenv)->CallVoidMethod(jenv,out, stage, outjage);
+	LOG;
 	return out;
 
 }
