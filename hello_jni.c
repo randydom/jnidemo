@@ -69,15 +69,23 @@ JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_getstud
 	return out;
 
 }
-JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_gettotal(JNIEnv *jenv, jclass jcls,jobject a)
+/*
+JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_getstudentone(JNIEnv *jenv, jclass jcls,jobject a)
 {
 	LOG;
 	jclass clazz = (*jenv)->GetObjectClass(jenv,a);
 	LOG;
 	//get enum
-	jmethodID getVal = (*env)->GetMethodID(jenv,clazz, "values", "()LStudentone$cla");
-	jstring value = (jstring)(*env)->CallObjectMethod(jenv,clazz, getVal);
-	const char * valueNative = env->GetStringUTFChars(jenv,value, 0);
+	jfieldID fidcla = (*jenv)->GetFieldID(jenv, clazz, "cs","Lcom/example/tangyi/myapplication/Studentone$cla;");
+	log("start ge enum");	
+	
+	jobject valueenum = (*jenv)->GetObjectField(jenv,clazz, fidcla);
+	log("get object");
+	jmethodID e = (*jenv)->GetMethodID(jenv,valueenum,"name","()Ljava/lang/String;");
+	log("get object method");
+	jstring value = (jstring)(*jenv)->CallObjectMethod(jenv, valueenum, e);
+	log("get object value");
+	const char * valueNative = (*jenv)->GetStringUTFChars(jenv,value, 0);
 	e_CLA cl;
 	if(strcmp(valueNative,"ONE") == 0)
 	{
@@ -93,7 +101,7 @@ JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_gettota
 		log("enum is three");
 	}
 
-
+	log("get enum");
 
 	//arrary
 	jfieldID cardfied = (*jenv)->GetFieldID(jenv, clazz, "card","[I");
@@ -110,5 +118,46 @@ JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_gettota
 	jmethodID dd = (*jenv)->GetMethodID(jenv,clazz,"<init>","(I)");
 	jobject out = (*jenv)->NewObject(jenv,clazz,dd,99);
 	return out;
+
+}
+*/
+JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_getcla(JNIEnv *jenv, jclass jcls,jobject a)
+{
+	log("start_getcla");
+	jclass clazz = (*jenv)->FindClass(jenv, "com/example/tangyi/myapplication/Studentone$cla");
+	jmethodID getVal = (*jenv)->GetMethodID(jenv,clazz, "name", "()Ljava/lang/String;");
+	jstring value = (jstring)(*jenv)->CallObjectMethod(jenv,a, getVal);
+	const char* valueNative = (*jenv)->GetStringUTFChars(jenv,value,0);
+	e_CLA cl;
+	if(strcmp(valueNative,"ONE") == 0)
+	{
+		cl = ONE;
+		log("enum is one");
+	}else if(strcmp(valueNative,"TWO") == 0)
+	{
+		cl = TWO;
+		log("enum is two");
+	}else if(strcmp(valueNative,"THREE") == 0)
+	{
+		cl = THREE;
+		log("enum is three");
+	}
+	cl = ONE;
+	jfieldID fidONE = (*jenv)->GetStaticFieldID(jenv, clazz,"ONE", "Lcom/example/tangyi/myapplication/Studentone$cla;");
+	jobject out = (*jenv)->GetStaticObjectField(jenv,clazz,fidONE);
+	return out;	
+
+
+}
+JNIEXPORT void JNICALL Java_com_example_tangyi_myapplication_Hellojni_callback(JNIEnv *jenv, jclass jcls,jobject a)
+{
+	log("callback start");
+	jclass clazz = (*jenv)->GetObjectClass(jenv,a);
+	jmethodID test = (*jenv)->GetMethodID(jenv,clazz,"Test","()V");
+	(*jenv)->CallObjectMethod(jenv, a, test);
+	log("test Test");
+	jstring name = (*jenv)->NewStringUTF(jenv,"tangyi");
+	jmethodID testp = (*jenv)->GetMethodID(jenv,clazz,"Testparam","(Ljava/lang/String;)V");
+	(*jenv)->CallVoidMethod(jenv, a, testp);
 
 }

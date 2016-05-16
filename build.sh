@@ -9,4 +9,4 @@ hello.c hello_jni.c \
 /data/grwebrtc_gmaster/src/chromium/src/third_party/android_tools/ndk/platforms/android-21/arch-arm/usr/lib/libc.so \
 /data/grwebrtc_gmaster/src/chromium/src/third_party/android_tools/ndk/platforms/android-21/arch-arm/usr/lib/liblog.so \
  -fPIC -shared -o libhello.so
-
+ls -liah lib*
