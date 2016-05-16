@@ -154,10 +154,13 @@ JNIEXPORT void JNICALL Java_com_example_tangyi_myapplication_Hellojni_callback(J
 	log("callback start");
 	jclass clazz = (*jenv)->GetObjectClass(jenv,a);
 	jmethodID test = (*jenv)->GetMethodID(jenv,clazz,"Test","()V");
-	(*jenv)->CallObjectMethod(jenv, a, test);
+	(*jenv)->CallVoidMethod(jenv, a, test);
 	log("test Test");
 	jstring name = (*jenv)->NewStringUTF(jenv,"tangyi");
 	jmethodID testp = (*jenv)->GetMethodID(jenv,clazz,"Testparam","(Ljava/lang/String;)V");
-	(*jenv)->CallVoidMethod(jenv, a, testp);
+	(*jenv)->CallVoidMethod(jenv, a, testp,name);
 
+	jmethodID add = (*jenv)->GetMethodID(jenv,clazz,"add","(II)I");
+	
+	(*jenv)->CallIntMethod(jenv, a, add, 2,3);
 }
