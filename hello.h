@@ -2,7 +2,7 @@
 extern "C" {
 #endif
 typedef struct student_s{
-	char name[10];
+	char name[15];
 	int age;
 
 }student;

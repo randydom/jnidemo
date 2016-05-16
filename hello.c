@@ -18,8 +18,10 @@ student* getstudent(student t)
 {
 	student* s = malloc(sizeof(t));
 	memset(s,0,sizeof(t));
+	
 	strcpy(s->name,t.name);
-	s->age = t.age;
+	strcat(s->name, "end");
+	s->age = t.age + 1;
 	return s;
 }
 void log(const char* fmt,...)

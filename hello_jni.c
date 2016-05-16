@@ -43,22 +43,62 @@ JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_getstud
 	LOG;
 	jint  jage = (*jenv)->GetIntField(jenv,a,fidage);
 	int age = (int)jage;
-	log("get age");
+	log("get age","123");
 	strcpy(in.name, name);
 	in.age = age;
 	student* s = getstudent(in);
+
 	log("name:",name);	
 	LOG;
 	jmethodID dd = (*jenv)->GetMethodID(jenv,clazz,"<init>","()V");
 	jobject out = (*jenv)->NewObject(jenv,clazz,dd);
-
 	LOG;
 	jstring outjname = (*jenv)->NewStringUTF(jenv, s->name);
-	jint outjage = (int)s->name;
+	jint outjage = (int)s->age;
 	log("set name");
-	(*jenv)->SetObjectField(jenv,out,fidname,jname);
-	(*jenv)->SetIntField(jenv,out,fidage,jage);
+	(*jenv)->SetObjectField(jenv,out,fidname,outjname);
+	(*jenv)->SetIntField(jenv,out,fidage,outjage);
 	LOG;
+	free(s);
 	return out;
 
 }
+JNIEXPORT jobject JNICALL Java_com_example_tangyi_myapplication_Hellojni_gettotal(JNIEnv *jenv, jclass jcls,jobject a)
+{
+	LOG;
+	jclass clazz = (*jenv)->GetObjectClass(jenv,a);
+	LOG;
+	//enum
+	jmethodID evlaueid = (*jenv)->GetMethodID(jenv,class, "value", "()I");
+	
+
+
+	jfieldID fid = (*jenv)->GetFieldID(jenv, clazz, "", "");
+	jfieldID fidage = (*jenv)->GetFieldID(jenv, clazz, "age", "I");
+	LOG;
+	jstring jname = (*jenv)->GetObjectField(jenv,a,fidname);
+	const char* name = (*jenv)->GetStringUTFChars(jenv,jname, 0);
+	LOG;
+	jint  jage = (*jenv)->GetIntField(jenv,a,fidage);
+	int age = (int)jage;
+	log("get age","123");
+	strcpy(in.name, name);
+	in.age = age;
+	student* s = getstudent(in);
+
+	log("name:",name);	
+	LOG;
+	jmethodID dd = (*jenv)->GetMethodID(jenv,clazz,"<init>","()V");
+	jobject out = (*jenv)->NewObject(jenv,clazz,dd);
+	LOG;
+	jstring outjname = (*jenv)->NewStringUTF(jenv, s->name);
+	jint outjage = (int)s->age;
+	log("set name");
+	(*jenv)->SetObjectField(jenv,out,fidname,outjname);
+	(*jenv)->SetIntField(jenv,out,fidage,outjage);
+	LOG;
+	free(s);
+	return out;
+
+}
+
