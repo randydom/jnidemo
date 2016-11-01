@@ -31,3 +31,6 @@ void log(const char* fmt,...)
   __android_log_vprint(ANDROID_LOG_DEBUG, "Hello", fmt, va_android);
   va_end(va_android);
 }
+
+
+
